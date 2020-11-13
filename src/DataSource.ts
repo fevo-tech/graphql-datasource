@@ -262,7 +262,8 @@ export class DataSource extends DataSourceApi<MyQuery, MyDataSourceOptions> {
     });
   }
   metricFindQuery(query: string, options?: any): Promise<MetricFindValue[]> {
-    return this.request(query)
+    const interpolatedQuery = getTemplateSrv().replace(query);
+    return this.request(interpolatedQuery)
       .then((results: any) => {
         const values = results.data.data.data.map((object: any) => object[Object.keys(object)[0]]);
         return values.map((value: any) => ({ text: value }));
