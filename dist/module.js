@@ -2660,7 +2660,8 @@ function (_super) {
   };
 
   DataSource.prototype.metricFindQuery = function (query, options) {
-    return this.request(query).then(function (results) {
+    var interpolatedQuery = Object(_grafana_runtime__WEBPACK_IMPORTED_MODULE_4__["getTemplateSrv"])().replace(query);
+    return this.request(interpolatedQuery).then(function (results) {
       var values = results.data.data.data.map(function (object) {
         return object[Object.keys(object)[0]];
       });
