@@ -265,8 +265,11 @@ export class DataSource extends DataSourceApi<MyQuery, MyDataSourceOptions> {
     const interpolatedQuery = getTemplateSrv().replace(query);
     return this.request(interpolatedQuery)
       .then((results: any) => {
-        const values = results.data.data.data.map((object: any) => object[Object.keys(object)[0]]);
-        return values.map((value: any) => ({ text: value }));
+        return results.data.data.data.map((object: any) => {
+          const value = object[Object.keys(object)[0]];
+          const text = object[Object.keys(object)[1]] || value;
+          return { text, value };
+        });
       })
       .catch((err: any) => {
         if (err.data && err.data.error) {

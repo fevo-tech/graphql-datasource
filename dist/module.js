@@ -2662,12 +2662,12 @@ function (_super) {
   DataSource.prototype.metricFindQuery = function (query, options) {
     var interpolatedQuery = Object(_grafana_runtime__WEBPACK_IMPORTED_MODULE_4__["getTemplateSrv"])().replace(query);
     return this.request(interpolatedQuery).then(function (results) {
-      var values = results.data.data.data.map(function (object) {
-        return object[Object.keys(object)[0]];
-      });
-      return values.map(function (value) {
+      return results.data.data.data.map(function (object) {
+        var value = object[Object.keys(object)[0]];
+        var text = object[Object.keys(object)[1]] || value;
         return {
-          text: value
+          text: text,
+          value: value
         };
       });
     })["catch"](function (err) {
